@@ -1,0 +1,19 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Обчислення об’єму зрізаного конуса</title>
+  <script>
+    function volumeFrustum() {
+      let D1 = parseFloat(prompt("Введіть діаметр нижньої основи:"));
+      let D2 = parseFloat(prompt("Введіть діаметр верхньої основи:"));
+      let h = parseFloat(prompt("Введіть висоту конуса:"));
+
+      let V = (Math.PI * h * (D1*D1 + D1*D2 + D2*D2)) / 12;
+
+      alert("Об'єм зрізаного конуса = " + V.toFixed(2));
+    }
+  </script>
+</head>
+<body onload="volumeFrustum()">
+</body>
+</html>

@@ -1,0 +1,17 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Обчислення функції</title>
+  <script>
+    function calcFunction() {
+      let x = parseFloat(prompt("Введіть значення x:"));
+
+      let f = 6 * Math.pow(x, 7) + 9 * Math.log(Math.abs(x)) * Math.log10(Math.abs(x));
+
+      document.body.innerHTML = "<h2>f(x) = " + f.toFixed(4) + "</h2>";
+    }
+  </script>
+</head>
+<body onload="calcFunction()">
+</body>
+</html>
