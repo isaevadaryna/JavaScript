@@ -1,20 +1,39 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>Date Greeting</title>
+<title>Fibonacci Set</title>
 <script>
-function greetByDate() {
-  const today = new Date();
-  const day = today.getDate(); // число місяця
+// Функція для генерації перших n чисел Фібоначчі
+function generateFibonacci(n) {
+  const fib = [0, 1];
+  for (let i = 2; i < n; i++) {
+    fib[i] = fib[i-1] + fib[i-2];
+  }
+  return fib;
+}
 
-  let greeting = (day % 2 === 0) ? "Добрий ранок" : "Добрий день";
-  document.getElementById('greeting').textContent = greeting + "! Сьогодні " + day + "-е число місяця.";
+function processFibonacci() {
+  const fibArray = generateFibonacci(20);
+  const fibSet = new Set(fibArray);
+
+  // Перевірка, які значення не потрапили у множину
+  // У JavaScript Set унікальний, тому дублікати не додадуться
+  const nonAdded = fibArray.filter(x => !fibSet.has(x));
+  
+  let result = "Масив Фібоначчі: " + fibArray.join(", ") + "<br>";
+  if (nonAdded.length === 0) {
+    result += "Всі значення були додані до множини.";
+  } else {
+    result += "Значення, які не було занесено у множину: " + nonAdded.join(", ");
+  }
+
+  document.getElementById('fibResult').innerHTML = result;
 }
 </script>
 </head>
 <body>
-<h1>Привітання за датою</h1>
-<button onclick="greetByDate()">Отримати привітання</button>
-<p id="greeting"></p>
+<h1>Ряд Фібоначчі і множина</h1>
+<button onclick="processFibonacci()">Обробити</button>
+<p id="fibResult"></p>
 </body>
 </html>

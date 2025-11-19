@@ -1,30 +1,57 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>Math Sin and Cos</title>
+<title>Country Areas</title>
 <script>
-function calculateAngles() {
-  // Масив кутів опуклого п’ятикутника (в градусах)
-  const angles = [72, 72, 72, 72, 72]; 
+let countries = {
+  "France": 643801,
+  "Germany": 357386,
+  "Italy": 301340,
+  "Spain": 505990,
+  "Portugal": 92212,
+  "Belgium": 30528,
+  "Netherlands": 41543
+};
 
-  let results = "Результати:<br>";
+function addCountry() {
+  const name = prompt("Введіть назву країни:");
+  const areaInput = prompt("Введіть площу країни (км²):");
+  const area = parseFloat(areaInput);
 
-  for (let i = 0; i < angles.length; i++) {
-    const radians = angles[i] * Math.PI / 180; // переведення в радіани
-    if (i % 2 === 0) {
-      results += `Кут ${i} (${angles[i]}°) → sin = ${Math.sin(radians).toFixed(3)}<br>`;
-    } else {
-      results += `Кут ${i} (${angles[i]}°) → cos = ${Math.cos(radians).toFixed(3)}<br>`;
-    }
+  if (!name || isNaN(area)) {
+    alert("Некоректні дані!");
+    return;
   }
 
-  document.getElementById('angleResults').innerHTML = results;
+  countries[name] = area;
+  alert("Країна додана!");
+}
+
+function showLargestCountry() {
+  let maxArea = -Infinity;
+  let maxCountry = "";
+  for (const [country, area] of Object.entries(countries)) {
+    if (area > maxArea) {
+      maxArea = area;
+      maxCountry = country;
+    }
+  }
+  alert("Країна з найбільшою площею: " + maxCountry + " (" + maxArea + " км²)");
+}
+
+function showTotalArea() {
+  let total = 0;
+  for (const area of Object.values(countries)) {
+    total += area;
+  }
+  alert("Сумарна площа всіх країн: " + total + " км²");
 }
 </script>
 </head>
 <body>
-<h1>Синуси та косинуси кутів</h1>
-<button onclick="calculateAngles()">Обчислити</button>
-<p id="angleResults"></p>
+<h1>Площі європейських країн</h1>
+<button onclick="addCountry()">Додати країну</button>
+<button onclick="showLargestCountry()">Показати найбільшу країну</button>
+<button onclick="showTotalArea()">Показати сумарну площу</button>
 </body>
 </html>
