@@ -1,0 +1,51 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Двовимірний масив 3x6</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 1: Масив 3x6</h1>
+  <pre id="output"></pre>
+
+  <script>
+    // Створюємо 3х6 масив із випадковими числами 1..15
+    let rows = 3, cols = 6;
+    let arr = [];
+    for (let i = 0; i < rows; i++) {
+      arr[i] = [];
+      for (let j = 0; j < cols; j++) {
+        arr[i][j] = Math.floor(Math.random() * 15) + 1;
+      }
+    }
+
+    // Обчислюємо суми стовпчиків
+    let colSums = [];
+    for (let j = 0; j < cols; j++) {
+      let sum = 0;
+      for (let i = 0; i < rows; i++) sum += arr[i][j];
+      colSums[j] = sum;
+    }
+
+    // Знаходимо індекс стовпчика з найбільшою сумою
+    let maxSum = Math.max(...colSums);
+    let maxIndex = colSums.indexOf(maxSum);
+
+    // Виводимо результат
+    let out = "Масив 3x6:\n";
+    arr.forEach(row => out += row.join(" ") + "\n");
+    out += "\nСуми стовпчиків: " + colSums.join(", ") + "\n";
+    out += "\nНайбільша сума = " + maxSum + " (стовпчик №" + (maxIndex+1) + ")\n";
+    out += "Елементи цього стовпчика:\n";
+    for (let i = 0; i < rows; i++) {
+      out += arr[i][maxIndex] + "\n";
+    }
+
+    document.getElementById("output").textContent = out;
+  </script>
+</body>
+</html>

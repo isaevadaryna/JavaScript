@@ -1,0 +1,44 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Двовимірний масив 3x4</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 2: Масив 3x4</h1>
+  <pre id="output"></pre>
+
+  <script>
+    // Початковий масив 3x4 із чисел 1, 2, 3
+    let arr = [
+      [1, 2, 3, 1],
+      [2, 1, 3, 2],
+      [3, 2, 1, 3]
+    ];
+
+    let out = "Початковий масив:\n";
+    arr.forEach(row => out += row.join(" ") + "\n");
+
+    // Заміна всіх "1" на степені числа 4
+    // Наприклад: перша 1 → 4^1=4, друга 1 → 4^2=16, третя 1 → 4^3=64 і т.д.
+    let power = 1;
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].length; j++) {
+        if (arr[i][j] === 1) {
+          arr[i][j] = Math.pow(4, power);
+          power++;
+        }
+      }
+    }
+
+    out += "\nМасив після заміни 1 на степені числа 4:\n";
+    arr.forEach(row => out += row.join(" ") + "\n");
+
+    document.getElementById("output").textContent = out;
+  </script>
+</body>
+</html>
