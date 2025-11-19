@@ -1,0 +1,25 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Window Object Example</title>
+<script>
+function windowInfo() {
+
+  alert("Глибина пікселя: " + window.screen.colorDepth + " біт");
+
+  const urlDisplayed = window.location ? "Рядок URL відображається" : "Рядок URL не відображається";
+  document.getElementById('urlInfo').textContent = urlDisplayed;
+
+  const offsetTop = window.screenY || window.screenTop || 0;
+  document.getElementById('divInfo').textContent = "Відстань від верхнього краю екрану: " + offsetTop + " пікселів";
+}
+</script>
+</head>
+<body>
+<h1>Інформація про вікно</h1>
+<button onclick="windowInfo()">Показати інформацію</button>
+
+<p id="urlInfo"></p>
+<div id="divInfo" style="margin-top:10px; padding:5px; border:1px solid #000;"></div>
+</body>
+</html>

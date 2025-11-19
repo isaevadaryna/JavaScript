@@ -1,0 +1,33 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Browser History Navigation</title>
+<script>
+function navigateHistory(direction) {
+  const stepsInput = document.getElementById('steps').value.trim();
+  const steps = parseInt(stepsInput);
+
+  if (isNaN(steps)) {
+    alert("Будь ласка, введіть число кроків!");
+    return;
+  }
+
+  if (direction === "back") {
+    history.go(-steps); // Переміщення назад
+  } else if (direction === "forward") {
+    history.go(steps); // Переміщення вперед
+  }
+}
+</script>
+</head>
+<body>
+<h1>Навігація по історії браузера</h1>
+
+<label>Кількість кроків: <input type="text" id="steps" placeholder="Введіть число"></label><br><br>
+
+<button onclick="navigateHistory('back')">Назад</button>
+<button onclick="navigateHistory('forward')">Вперед</button>
+
+<p>Введіть кількість кроків і натисніть кнопку для переходу по історії.</p>
+</body>
+</html>
