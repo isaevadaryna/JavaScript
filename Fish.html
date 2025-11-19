@@ -1,0 +1,49 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Клас Fish</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 1: Клас Fish</h1>
+  <pre id="output"></pre>
+
+  <script>
+    class Fish {
+      #species; // приватне поле
+      #age;     // приватне поле
+
+      constructor(name, species, age, length) {
+        this.name = name;     // публічне поле
+        this.length = length; // публічне поле
+        this.#species = species;
+        this.#age = age;
+      }
+
+      info() {
+        return `Рибка "${this.name}", вид: ${this.#species}, вік: ${this.#age} років, довжина: ${this.length} см`;
+      }
+
+      grow(cm) {
+        this.length += cm;
+        this.#age++;
+        return `${this.name} підросла на ${cm} см!`;
+      }
+    }
+
+    // Створюємо 2 екземпляри
+    let fish1 = new Fish("Золота", "Золота рибка", 1, 10);
+    let fish2 = new Fish("Карась", "Прісноводна риба", 2, 15);
+
+    // Демонстрація
+    let out = "";
+    out += fish1.info() + "\n" + fish1.grow(2) + "\n" + fish1.info() + "\n\n";
+    out += fish2.info() + "\n" + fish2.grow(3) + "\n" + fish2.info();
+    document.getElementById("output").textContent = out;
+  </script>
+</body>
+</html>

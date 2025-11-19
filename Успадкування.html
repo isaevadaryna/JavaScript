@@ -1,0 +1,68 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Наслідування класів</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 2: Наслідування</h1>
+  <pre id="output"></pre>
+
+  <script>
+    // Базовий клас
+    class Animal {
+      constructor(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+
+      info() {
+        return `${this.name}, вік: ${this.age} років`;
+      }
+    }
+
+    // Похідний клас Dog
+    class Dog extends Animal {
+      constructor(name, age, breed) {
+        super(name, age);
+        this.breed = breed;
+      }
+
+      bark() {
+        return `${this.name} (порода: ${this.breed}) гавкає: "Гав-гав!"`;
+      }
+    }
+
+    // Похідний клас Cat
+    class Cat extends Animal {
+      constructor(name, age, color) {
+        super(name, age);
+        this.color = color;
+      }
+
+      meow() {
+        return `${this.name} (${this.color} кіт) нявкає: "Мяу-мяу!"`;
+      }
+    }
+
+    // Створюємо кілька екземплярів
+    let dog1 = new Dog("Рекс", 3, "Німецька вівчарка");
+    let dog2 = new Dog("Шарик", 5, "Лабрадор");
+
+    let cat1 = new Cat("Мурчик", 2, "Рудий");
+    let cat2 = new Cat("Сніжок", 4, "Білий");
+
+    // Демонстрація
+    let out = "";
+    out += dog1.info() + "\n" + dog1.bark() + "\n\n";
+    out += dog2.info() + "\n" + dog2.bark() + "\n\n";
+    out += cat1.info() + "\n" + cat1.meow() + "\n\n";
+    out += cat2.info() + "\n" + cat2.meow();
+    document.getElementById("output").textContent = out;
+  </script>
+</body>
+</html>
