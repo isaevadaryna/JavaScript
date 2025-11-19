@@ -1,0 +1,38 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Async WebStorage</title>
+</head>
+<body>
+
+<h2>Асинхронний запис масиву у WebStorage</h2>
+
+<button onclick="runTask()">Запустити завдання</button>
+
+<script>
+// --- 1. Асинхронна функція: створює масив і записує його в localStorage ---
+async function saveArrayToStorage() {
+    return new Promise((resolve) => {
+
+        // Створимо масив М з 120 елементів
+        const M = Array.from({ length: 120 }, (_, i) => i + 1);
+
+        // Записуємо в WebStorage (localStorage)
+        localStorage.setItem('arrayM', JSON.stringify(M));
+
+        console.log("Асинхронний запис виконано. Масив M збережено у WebStorage.");
+        resolve();
+    });
+}
+
+// --- 2. Основна функція, яка викликає асинхронну ---
+function runTask() {
+    console.log("Запуск асинхронної функції...");
+    saveArrayToStorage().then(() => {
+        console.log("Роботу завершено.");
+    });
+}
+</script>
+
+</body>
+</html>
