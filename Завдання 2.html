@@ -1,44 +1,30 @@
-<html lang="uk">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Двовимірний масив 3x4</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
-    h1 { color: #333; }
-    pre { background: #eee; padding: 10px; border-radius: 5px; }
-  </style>
+<meta charset="UTF-8">
+<title>URL Validator</title>
+<script>
+let urlArray = [];
+
+function validateAndAdd() {
+  const input = document.getElementById('urlInput').value.trim();
+
+  // Перевірка формату http://*.*.* або https://*.*.* 
+  const regex = /^https?:\/\/([a-z0-9-]+\.){2,}[a-z]{2,}$/i;
+
+  if (regex.test(input)) {
+    urlArray.push(input);
+    document.getElementById('urlList').textContent = 'URLs: ' + urlArray.join(', ');
+    document.getElementById('urlInput').value = '';
+  } else {
+    alert('Invalid URL! Must be in format http://*.*.* or https://*.*.*');
+  }
+}
+</script>
 </head>
 <body>
-  <h1>Завдання 2: Масив 3x4</h1>
-  <pre id="output"></pre>
-
-  <script>
-    // Початковий масив 3x4 із чисел 1, 2, 3
-    let arr = [
-      [1, 2, 3, 1],
-      [2, 1, 3, 2],
-      [3, 2, 1, 3]
-    ];
-
-    let out = "Початковий масив:\n";
-    arr.forEach(row => out += row.join(" ") + "\n");
-
-    // Заміна всіх "1" на степені числа 4
-    // Наприклад: перша 1 → 4^1=4, друга 1 → 4^2=16, третя 1 → 4^3=64 і т.д.
-    let power = 1;
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr[i].length; j++) {
-        if (arr[i][j] === 1) {
-          arr[i][j] = Math.pow(4, power);
-          power++;
-        }
-      }
-    }
-
-    out += "\nМасив після заміни 1 на степені числа 4:\n";
-    arr.forEach(row => out += row.join(" ") + "\n");
-
-    document.getElementById("output").textContent = out;
-  </script>
+<h1>URL Validator</h1>
+<input type="text" id="urlInput" placeholder="Enter URL">
+<button onclick="validateAndAdd()">Add URL</button>
+<p id="urlList">URLs: </p>
 </body>
 </html>

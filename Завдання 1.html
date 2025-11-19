@@ -1,51 +1,73 @@
-<html lang="uk">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Двовимірний масив 3x6</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
-    h1 { color: #333; }
-    pre { background: #eee; padding: 10px; border-radius: 5px; }
-  </style>
+<meta charset="UTF-8">
+<title>Polybius Cipher</title>
+<script>
+const polybiusSquare = [
+  ['A','B','C','D','E'],
+  ['F','G','H','I','K'],
+  ['L','M','N','O','P'],
+  ['Q','R','S','T','U'],
+  ['V','W','X','Y','Z']
+];
+
+// Функція для шифрування
+function encrypt(message) {
+  message = message.toUpperCase().replace(/J/g, 'I'); // J замінюємо на I
+  let result = '';
+  for (let char of message) {
+    if (char === ' ') {
+      result += ' ';
+      continue;
+    }
+    let found = false;
+    for (let i = 0; i < 5; i++) {
+      for (let j = 0; j < 5; j++) {
+        if (polybiusSquare[i][j] === char) {
+          result += (i+1).toString() + (j+1).toString();
+          found = true;
+          break;
+        }
+      }
+      if (found) break;
+    }
+  }
+  return result;
+}
+
+// Функція для дешифрування
+function decrypt(cipher) {
+  let result = '';
+  for (let i = 0; i < cipher.length; i += 2) {
+    if (cipher[i] === ' ') {
+      result += ' ';
+      i--; // щоб врахувати пробіл
+      continue;
+    }
+    let row = parseInt(cipher[i]) - 1;
+    let col = parseInt(cipher[i+1]) - 1;
+    result += polybiusSquare[row][col];
+  }
+  return result;
+}
+
+// Обробка форми
+function processPolybius() {
+  const input = document.getElementById('polyInput').value;
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  let output = mode === 'encrypt' ? encrypt(input) : decrypt(input);
+  document.getElementById('polyOutput').textContent = output;
+}
+</script>
 </head>
 <body>
-  <h1>Завдання 1: Масив 3x6</h1>
-  <pre id="output"></pre>
-
-  <script>
-    // Створюємо 3х6 масив із випадковими числами 1..15
-    let rows = 3, cols = 6;
-    let arr = [];
-    for (let i = 0; i < rows; i++) {
-      arr[i] = [];
-      for (let j = 0; j < cols; j++) {
-        arr[i][j] = Math.floor(Math.random() * 15) + 1;
-      }
-    }
-
-    // Обчислюємо суми стовпчиків
-    let colSums = [];
-    for (let j = 0; j < cols; j++) {
-      let sum = 0;
-      for (let i = 0; i < rows; i++) sum += arr[i][j];
-      colSums[j] = sum;
-    }
-
-    // Знаходимо індекс стовпчика з найбільшою сумою
-    let maxSum = Math.max(...colSums);
-    let maxIndex = colSums.indexOf(maxSum);
-
-    // Виводимо результат
-    let out = "Масив 3x6:\n";
-    arr.forEach(row => out += row.join(" ") + "\n");
-    out += "\nСуми стовпчиків: " + colSums.join(", ") + "\n";
-    out += "\nНайбільша сума = " + maxSum + " (стовпчик №" + (maxIndex+1) + ")\n";
-    out += "Елементи цього стовпчика:\n";
-    for (let i = 0; i < rows; i++) {
-      out += arr[i][maxIndex] + "\n";
-    }
-
-    document.getElementById("output").textContent = out;
-  </script>
+<h1>Polybius Cipher</h1>
+<input type="text" id="polyInput" placeholder="Enter message">
+<br>
+<label><input type="radio" name="mode" value="encrypt" checked> Encrypt</label>
+<label><input type="radio" name="mode" value="decrypt"> Decrypt</label>
+<br>
+<button onclick="processPolybius()">Process</button>
+<p>Output: <span id="polyOutput"></span></p>
 </body>
 </html>
