@@ -1,0 +1,23 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Поточний час і подія наведення</title>
+</head>
+<body>
+<p id="text">Наведіть курсор на цей абзац</p>
+<input type="text" id="timeField" readonly>
+
+<script>
+window.onload = function() {
+  const timeField = document.getElementById('timeField');
+  const now = new Date();
+  const timeString = now.toLocaleTimeString();
+  timeField.value = timeString;
+};
+
+document.getElementById('text').addEventListener('mouseover', function() {
+  alert("Ісаєва Дарина");
+});
+</script>
+</body>
+</html>
