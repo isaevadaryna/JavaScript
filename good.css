@@ -1,0 +1,21 @@
+BODY { 
+background-color: brown; 
+color:white; 
+}
+
+P {
+color: white; 
+font-style:italic; 
+text-align:right; 
+font-family:Candara; 
+font-size:13pt;}
+
+H2 {
+text-align:center; 
+font-family:Times;
+font-size:16pt;}
+H4 {
+text-align:right; 
+font-family:Calisto;
+font-size:16pt;}
+
