@@ -1,0 +1,25 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Перевірка точки і кола</title>
+  <script>
+    function checkPoint() {
+      let R = parseFloat(prompt("Введіть радіус кола R:"));
+      let x = parseFloat(prompt("Введіть координату x:"));
+      let y = parseFloat(prompt("Введіть координату y:"));
+
+      let distanceSquared = x*x + y*y;
+
+      if (distanceSquared < R*R) {
+        alert("Точка (" + x + ", " + y + ") знаходиться всередині кола.");
+      } else if (distanceSquared === R*R) {
+        alert("Точка (" + x + ", " + y + ") лежить на колі.");
+      } else {
+        alert("Точка (" + x + ", " + y + ") знаходиться поза колом.");
+      }
+    }
+  </script>
+</head>
+<body onload="checkPoint()">
+</body>
+</html>

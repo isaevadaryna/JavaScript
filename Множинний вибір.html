@@ -1,0 +1,30 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Перелік студентів</title>
+  <script>
+    function studentInfo() {
+      let num = parseInt(prompt("Введіть номер студента (1-10):"));
+      let info = "";
+
+      switch(num) {
+        case 1: info = "1. Городнюк Василій — середній бал: 90"; break;
+        case 2: info = "2. Петренко Олексій — середній бал: 85"; break;
+        case 3: info = "3. Коваленко Марія — середній бал: 92"; break;
+        case 4: info = "4. Шевченко Андрій — середній бал: 78"; break;
+        case 5: info = "5. Бондар Ірина — середній бал: 88"; break;
+        case 6: info = "6. Гончар Олег — середній бал: 95"; break;
+        case 7: info = "7. Ткачук Наталія — середній бал: 80"; break;
+        case 8: info = "8. Мельник Богдан — середній бал: 83"; break;
+        case 9: info = "9. Савченко Оксана — середній бал: 91"; break;
+        case 10: info = "10. Дмитренко Юрій — середній бал: 86"; break;
+        default: info = "Студента з таким номером немає!";
+      }
+
+      document.body.innerHTML = "<h2>" + info + "</h2>";
+    }
+  </script>
+</head>
+<body onload="studentInfo()">
+</body>
+</html>
