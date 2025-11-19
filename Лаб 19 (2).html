@@ -1,0 +1,40 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>WebStorage Currency</title>
+<script>
+// Зберегти дані у WebStorage
+function saveCurrency() {
+  const currency = document.getElementById("cur").value;
+  const rate = document.getElementById("rate").value;
+
+  localStorage.setItem("currency", currency);
+  localStorage.setItem("rate", rate);
+
+  alert("Дані збережено у WebStorage");
+}
+
+// Прочитати дані з WebStorage і показати
+function loadCurrency() {
+  const c = localStorage.getItem("currency");
+  const r = localStorage.getItem("rate");
+
+  document.getElementById("output").innerText =
+    "Валюта: " + c + "\nКурс: " + r;
+}
+</script>
+</head>
+<body>
+
+<h2>Введення валют</h2>
+
+Назва валюти: <input type="text" id="cur"><br><br>
+Курс: <input type="text" id="rate"><br><br>
+
+<button onclick="saveCurrency()">Зберегти в WebStorage</button>
+<button onclick="loadCurrency()">Прочитати з WebStorage</button>
+
+<pre id="output" style="margin-top:20px; font-size:18px;"></pre>
+
+</body>
+</html>
