@@ -1,0 +1,28 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Перевірка дійсного числа</title>
+</head>
+<body>
+<input type="text" id="numberInput" placeholder="Введіть дійсне число">
+<p id="message"></p>
+
+<script>
+const input = document.getElementById('numberInput');
+const message = document.getElementById('message');
+
+input.addEventListener('input', () => {
+  input.value = input.value.replace(/[^0-9.\-]/g, '');
+});
+
+input.addEventListener('blur', () => {
+  const value = input.value;
+  if (value === '' || isNaN(value)) {
+    message.textContent = 'Введено некоректне число!';
+  } else {
+    message.textContent = 'Введено коректне дійсне число.';
+  }
+});
+</script>
+</body>
+</html>
