@@ -1,30 +1,30 @@
-<html lang="en">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
-<title>URL Validator</title>
+<title>Math Sin and Cos</title>
 <script>
-let urlArray = [];
+function calculateAngles() {
+  // Масив кутів опуклого п’ятикутника (в градусах)
+  const angles = [72, 72, 72, 72, 72]; 
 
-function validateAndAdd() {
-  const input = document.getElementById('urlInput').value.trim();
+  let results = "Результати:<br>";
 
-  // Перевірка формату http://*.*.* або https://*.*.* 
-  const regex = /^https?:\/\/([a-z0-9-]+\.){2,}[a-z]{2,}$/i;
-
-  if (regex.test(input)) {
-    urlArray.push(input);
-    document.getElementById('urlList').textContent = 'URLs: ' + urlArray.join(', ');
-    document.getElementById('urlInput').value = '';
-  } else {
-    alert('Invalid URL! Must be in format http://*.*.* or https://*.*.*');
+  for (let i = 0; i < angles.length; i++) {
+    const radians = angles[i] * Math.PI / 180; // переведення в радіани
+    if (i % 2 === 0) {
+      results += `Кут ${i} (${angles[i]}°) → sin = ${Math.sin(radians).toFixed(3)}<br>`;
+    } else {
+      results += `Кут ${i} (${angles[i]}°) → cos = ${Math.cos(radians).toFixed(3)}<br>`;
+    }
   }
+
+  document.getElementById('angleResults').innerHTML = results;
 }
 </script>
 </head>
 <body>
-<h1>URL Validator</h1>
-<input type="text" id="urlInput" placeholder="Enter URL">
-<button onclick="validateAndAdd()">Add URL</button>
-<p id="urlList">URLs: </p>
+<h1>Синуси та косинуси кутів</h1>
+<button onclick="calculateAngles()">Обчислити</button>
+<p id="angleResults"></p>
 </body>
 </html>
