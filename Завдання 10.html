@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Function Tabulation with Exception Handling</title>
+<script>
+function tabulateFunction() {
+  const startInput = document.getElementById('start').value.trim();
+  const endInput = document.getElementById('end').value.trim();
+  const stepInput = document.getElementById('step').value.trim();
+
+  try {
+    // Перетворюємо на числа
+    const start = parseFloat(startInput);
+    const end = parseFloat(endInput);
+    const step = parseFloat(stepInput);
+
+    // Перевірка чи введені числа
+    if (isNaN(start) || isNaN(end) || isNaN(step)) {
+      throw new Error('Введено не число! Введіть коректні числа.');
+    }
+    if (step <= 0) {
+      throw new Error('Крок має бути додатним числом!');
+    }
+
+    // Табуляція функції
+    let result = 'x\tf(x)<br>';
+    for (let x = start; x <= end; x += step) {
+      const fx = 2 + Math.pow(x, 2) + Math.pow(x, 3);
+      result += x.toFixed(2) + '\t' + fx.toFixed(2) + '<br>';
+    }
+
+    document.getElementById('output').innerHTML = result;
+
+  } catch (err) {
+    alert(err.message);
+    document.getElementById('output').innerHTML = '';
+  }
+}
+</script>
+</head>
+<body>
+<h1>Tabulate f(x) = 2 + x² + x³</h1>
+
+<label>Start (x₀): <input type="text" id="start" placeholder="Enter start"></label><br>
+<label>End (x₁): <input type="text" id="end" placeholder="Enter end"></label><br>
+<label>Step: <input type="text" id="step" placeholder="Enter step"></label><br><br>
+
+<button onclick="tabulateFunction()">Tabulate</button>
+
+<h2>Result:</h2>
+<p id="output" style="white-space: pre;"></p>
+</body>
+</html>
