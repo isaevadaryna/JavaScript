@@ -1,0 +1,40 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Масив цін</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 1: Масив цін</h1>
+  <pre id="output"></pre>
+
+  <script>
+    // Масив цін
+    let prices = [25, 18, 30, 12, 45, 10, 20, 28, 35, 15];
+
+    // 1) Сортування в порядку спадання
+    let sorted = [...prices].sort((a, b) => b - a);
+
+    // 2) Сума першої і другої половини
+    let half = Math.floor(sorted.length / 2);
+    let sumFirst = sorted.slice(0, half).reduce((a, b) => a + b, 0);
+    let sumSecond = sorted.slice(half).reduce((a, b) => a + b, 0);
+
+    // 3) Різниця між найбільшим і найменшим
+    let difference = Math.max(...sorted) - Math.min(...sorted);
+
+    // Вивід
+    let out = "";
+    out += "Початковий масив: " + prices.join(", ") + "\n\n";
+    out += "Відсортований масив (спадання): " + sorted.join(", ") + "\n\n";
+    out += "Сума першої половини: " + sumFirst + "\n";
+    out += "Сума другої половини: " + sumSecond + "\n\n";
+    out += "Різниця між max і min: " + difference;
+    document.getElementById("output").textContent = out;
+  </script>
+</body>
+</html>

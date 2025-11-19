@@ -1,0 +1,71 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Масив Box</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+    input { padding: 5px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 2: Масив об’єктів Box</h1>
+  <pre id="output"></pre>
+
+  <label>Введіть ім’я власника: </label>
+  <input type="text" id="ownerInput">
+  <button onclick="searchBox()">Знайти коробку</button>
+  <pre id="searchResult"></pre>
+
+  <script>
+    class Box {
+      #owner; // приватне поле
+
+      constructor(length, width, height, color, owner) {
+        this.length = length;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.#owner = owner;
+      }
+
+      volume() {
+        return this.length * this.width * this.height;
+      }
+
+      getOwner() {
+        return this.#owner;
+      }
+
+      info() {
+        return `Box (${this.color}) ${this.length}x${this.width}x${this.height}, власник: ${this.#owner}`;
+      }
+    }
+
+    // Масив з 3 коробок
+    let boxes = [
+      new Box(2, 3, 4, "червона", "Андрій"),
+      new Box(5, 2, 3, "синя", "Оксана"),
+      new Box(4, 4, 2, "зелена", "Марія")
+    ];
+
+    // 2) Сумарний об’єм
+    let totalVolume = boxes.reduce((sum, box) => sum + box.volume(), 0);
+
+    // Вивід
+    let out = "Список коробок:\n\n";
+    boxes.forEach(b => out += b.info() + ", об’єм = " + b.volume() + "\n");
+    out += "\nСумарний об’єм: " + totalVolume;
+    document.getElementById("output").textContent = out;
+
+    // 3) Пошук коробки за власником
+    function searchBox() {
+      let owner = document.getElementById("ownerInput").value.trim();
+      let box = boxes.find(b => b.getOwner().toLowerCase() === owner.toLowerCase());
+      let result = box ? box.info() : "Коробку не знайдено.";
+      document.getElementById("searchResult").textContent = result;
+    }
+  </script>
+</body>
+</html>
