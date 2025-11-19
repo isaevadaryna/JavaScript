@@ -1,0 +1,254 @@
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <title>Demo: TemplateField (custom element)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 24px;
+      background: #fafafa;
+      color: #222;
+    }
+    .card {
+      max-width: 640px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      padding: 18px;
+    }
+    h1 { font-size: 20px; margin: 0 0 12px; }
+    p { margin: 8px 0; }
+    label { font-weight: 600; display:block; margin-bottom:6px;}
+    .row { display:flex; gap:12px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+    .hint { color:#666; font-size:14px; }
+    .log { white-space:pre-wrap; background:#f4f6f8; padding:10px; border-radius:6px; margin-top:12px; font-family:monospace; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Custom element:</h1>
+    <p>Поле приймає PIN-код — має містити **рівно 4 цифри**. Якщо перевірка не пройшла (не 4 цифри), то значення буде очищено.</p>
+
+    <label for="demo1">Приклад 1 — просте використання:</label>
+    <template-field id="demo1" placeholder="Введіть 4 цифри"></template-field>
+    <div class="hint">Перевірка відбувається при втраті фокусу або натисненні Enter. Під час введення дозволені лише цифри.</div>
+
+    <div class="row">
+      <div>
+        <label for="demo2">Приклад 2 — з підписом та обробником події:</label>
+        <template-field id="demo2" placeholder="PIN" label="Ваш PIN:"></template-field>
+      </div>
+
+      <div style="flex:1">
+        <label>Результат подій:</label>
+        <div id="log" class="log">Тут будуть події (pin-valid та pin-invalid).</div>
+      </div>
+    </div>
+
+  <script>
+    // Визначаємо custom element <template-field>
+    class TemplateField extends HTMLElement {
+      constructor() {
+        super();
+        // Shadow DOM
+        this.attachShadow({ mode: 'open' });
+
+        // Коренева розмітка
+        this.shadowRoot.innerHTML = `
+          <style>
+            :host {
+              display: inline-block;
+              font-family: inherit;
+            }
+            .wrap {
+              display:flex;
+              align-items:center;
+              gap:8px;
+            }
+            label {
+              font-size: 14px;
+            }
+            input[type="text"] {
+              padding: 8px 10px;
+              border-radius: 6px;
+              border: 1px solid #cbd5e1;
+              font-size: 16px;
+              min-width: 120px;
+              box-sizing: border-box;
+            }
+            input[type="text"]:focus {
+              outline: none;
+              border-color: #60a5fa;
+              box-shadow: 0 0 0 4px rgba(96,165,250,0.12);
+            }
+            .msg {
+              font-size: 12px;
+              color: #cc0000;
+              margin-left: 6px;
+              visibility: hidden;
+            }
+            .msg.show { visibility: visible; }
+          </style>
+          <div class="wrap">
+            <label id="label" part="label" style="display:none"></label>
+            <input id="input" type="text" inputmode="numeric" maxlength="4" autocomplete="off" />
+            <span id="msg" class="msg">Невірний PIN</span>
+          </div>
+        `;
+
+        this._input = this.shadowRoot.getElementById('input');
+        this._label = this.shadowRoot.getElementById('label');
+        this._msg = this.shadowRoot.getElementById('msg');
+
+        // Прив'язка методів
+        this._onInput = this._onInput.bind(this);
+        this._onBlur = this._onBlur.bind(this);
+        this._onKeyDown = this._onKeyDown.bind(this);
+      }
+
+      // Атрибути, які підтримуємо
+      static get observedAttributes() {
+        return ['placeholder', 'label', 'value'];
+      }
+
+      attributeChangedCallback(name, oldVal, newVal) {
+        if (name === 'placeholder') this._input.placeholder = newVal || '';
+        if (name === 'label') {
+          if (newVal) {
+            this._label.textContent = newVal;
+            this._label.style.display = 'inline-block';
+          } else {
+            this._label.style.display = 'none';
+          }
+        }
+        if (name === 'value') this._input.value = newVal || '';
+      }
+
+      connectedCallback() {
+        // Ініціалізуємо атрибути на випадок, якщо задані з HTML
+        if (this.hasAttribute('placeholder')) {
+          this._input.placeholder = this.getAttribute('placeholder');
+        }
+        if (this.hasAttribute('label')) {
+          this._label.textContent = this.getAttribute('label');
+          this._label.style.display = 'inline-block';
+        }
+        if (this.hasAttribute('value')) {
+          this._input.value = this.getAttribute('value');
+        }
+
+        // Події
+        this._input.addEventListener('input', this._onInput);
+        this._input.addEventListener('blur', this._onBlur);
+        this._input.addEventListener('keydown', this._onKeyDown);
+      }
+
+      disconnectedCallback() {
+        this._input.removeEventListener('input', this._onInput);
+        this._input.removeEventListener('blur', this._onBlur);
+        this._input.removeEventListener('keydown', this._onKeyDown);
+      }
+
+      // Повертає поточне значення
+      get value() {
+        return this._input.value;
+      }
+      set value(v) {
+        this._input.value = v;
+        this.setAttribute('value', v);
+      }
+
+      // Видаляє всі символи, що не є цифрами
+      _onInput(e) {
+        const cleaned = this._input.value.replace(/\D+/g, ''); // тільки цифри
+        if (cleaned !== this._input.value) {
+          const pos = this._input.selectionStart - 1;
+          this._input.value = cleaned;
+          // коректуємо каретку (не завжди ідеально але краще ніж нічого)
+          this._input.setSelectionRange(Math.max(0, pos), Math.max(0, pos));
+        }
+      }
+
+      // При натисненні Enter — перевірка
+      _onKeyDown(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this._validate();
+          // опціонально знімаємо фокус після Enter
+          this._input.blur();
+        }
+      }
+
+      // При втраті фокусу — перевірка
+      _onBlur() {
+        this._validate();
+      }
+
+      // Логіка перевірки: саме 4 цифри
+      _validate() {
+        const val = this._input.value.trim();
+        const ok = /^\d{4}$/.test(val);
+        if (ok) {
+          // Повідомляємо, що PIN валідний
+          this._msg.classList.remove('show');
+          this.dispatchEvent(new CustomEvent('pin-valid', {
+            detail: { pin: val },
+            bubbles: true,
+            composed: true
+          }));
+        } else {
+          // Невірний — очищаємо поле, показуємо коротке повідомлення і диспатчимо подію
+          this._input.value = '';
+          this._msg.classList.add('show');
+          // Сховаємо повідомлення через 1.6с
+          setTimeout(() => this._msg.classList.remove('show'), 1600);
+
+          this.dispatchEvent(new CustomEvent('pin-invalid', {
+            detail: { value: val },
+            bubbles: true,
+            composed: true
+          }));
+        }
+      }
+    }
+
+    // Регіструємо елемент
+    customElements.define('template-field', TemplateField);
+
+
+    // ---------------------------
+    // Демонстрація: обробляємо події з двох прикладів
+    // ---------------------------
+    const logEl = document.getElementById('log');
+
+    function appendLog(text) {
+      const time = new Date().toLocaleTimeString();
+      logEl.textContent = `[${time}] ` + text + '\n' + logEl.textContent;
+    }
+
+    // demo1: просте поле (вистачить, щоб тестувати)
+    const demo1 = document.getElementById('demo1');
+    demo1.addEventListener('pin-valid', (e) => {
+      appendLog(`demo1: PIN валідний → ${e.detail.pin}`);
+    });
+    demo1.addEventListener('pin-invalid', (e) => {
+      appendLog(`demo1: PIN НЕ валідний (очищено). Введено: "${e.detail.value}"`);
+    });
+
+    // demo2: з міткою і обробником, додатково показуємо value в title після успіху
+    const demo2 = document.getElementById('demo2');
+    demo2.setAttribute('label', 'Ваш PIN:');
+    demo2.addEventListener('pin-valid', (e) => {
+      appendLog(`demo2: PIN валідний → ${e.detail.pin}`);
+      demo2.value = e.detail.pin; // зберігаємо значення
+      demo2.title = 'Останній валідний PIN: ' + e.detail.pin;
+    });
+    demo2.addEventListener('pin-invalid', (e) => {
+      appendLog(`demo2: PIN НЕ валідний (очищено).`);
+    });
+  </script>
+</body>
+</html>
+
