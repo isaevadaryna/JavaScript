@@ -1,0 +1,48 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Об’єкт Village</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 1: Об’єкт Village</h1>
+  <pre id="villages"></pre>
+
+  <script>
+    // Базовий об'єкт Village
+    let Village = {
+      name: "",
+      population: 0,
+      region: "",
+      info: function () {
+        return `${this.name} (населення: ${this.population}), область: ${this.region}`;
+      },
+      grow: function (n) {
+        this.population += n;
+        return `${this.name}: населення зросло на ${n}, тепер ${this.population}`;
+      }
+    };
+
+    // Створюємо кілька сіл
+    let v1 = Object.create(Village);
+    v1.name = "Калинівка"; v1.population = 1200; v1.region = "Київська";
+
+    let v2 = Object.create(Village);
+    v2.name = "Зелене"; v2.population = 800; v2.region = "Львівська";
+
+    let v3 = Object.create(Village);
+    v3.name = "Сонячне"; v3.population = 950; v3.region = "Одеська";
+
+    // Вивід
+    let output = "";
+    output += v1.info() + "\n" + v1.grow(50) + "\n\n";
+    output += v2.info() + "\n" + v2.grow(30) + "\n\n";
+    output += v3.info() + "\n" + v3.grow(20);
+    document.getElementById("villages").textContent = output;
+  </script>
+</body>
+</html>

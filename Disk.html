@@ -1,0 +1,52 @@
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Об’єкт Disk</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Завдання 2: Об’єкт Disk</h1>
+  <pre id="disks"></pre>
+
+  <script>
+    // Базовий об'єкт Disk
+    let Disk = {
+      title: "",
+      sizeGB: 0,
+      type: "",
+      info: function () {
+        return `Диск "${this.title}" (${this.type}), розмір: ${this.sizeGB} GB`;
+      },
+      format: function () {
+        let oldSize = this.sizeGB;
+        this.sizeGB = 0;
+        return `Диск "${this.title}" відформатовано (було ${oldSize} GB).`;
+      }
+    };
+
+    // Створюємо 3 диски з додатковими властивостями/методами
+    let d1 = Object.create(Disk);
+    d1.title = "Music Collection"; d1.sizeGB = 5; d1.type = "CD";
+    d1.play = function () { return `Відтворення музики з диска "${this.title}"`; };
+
+    let d2 = Object.create(Disk);
+    d2.title = "Movie Archive"; d2.sizeGB = 20; d2.type = "DVD";
+    d2.quality = "HD";
+
+    let d3 = Object.create(Disk);
+    d3.title = "Backup"; d3.sizeGB = 50; d3.type = "Blu-ray";
+    d3.checkBackup = function () { return `Перевірка резервної копії на диску "${this.title}"`; };
+
+    // Вивід
+    let output = "";
+    output += d1.info() + "\n" + d1.play() + "\n\n";
+    output += d2.info() + "\n" + "Якість: " + d2.quality + "\n\n";
+    output += d3.info() + "\n" + d3.checkBackup() + "\n" + d3.format();
+    document.getElementById("disks").textContent = output;
+  </script>
+</body>
+</html>
