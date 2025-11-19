@@ -1,0 +1,22 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Рекурсивне піднесення до степеня</title>
+  <script>
+    function power(a, n) {
+      if (n === 0) return 1;
+      if (n > 0) return a * power(a, n - 1);
+      return 1 / power(a, -n); // для від’ємних степенів
+    }
+
+    function demo() {
+      let base = parseFloat(prompt("Введіть число a:"));
+      let exp = parseInt(prompt("Введіть степінь n:"));
+      let result = power(base, exp);
+      document.body.innerHTML = "<h2>" + base + "^" + exp + " = " + result + "</h2>";
+    }
+  </script>
+</head>
+<body onload="demo()">
+</body>
+</html>

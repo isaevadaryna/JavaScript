@@ -1,0 +1,24 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ємність батареї конденсаторів</title>
+  <script>
+    // Функція зі змінною кількістю аргументів
+    function totalCapacity(...capacitors) {
+      let sum = 0;
+      for (let C of capacitors) {
+        sum += 1 / C;
+      }
+      return 1 / sum;
+    }
+
+    function demo() {
+      // Приклад: три конденсатори 10, 20 і 30 мкФ
+      let C_eq = totalCapacity(10, 20, 30);
+      alert("Еквівалентна ємність: " + C_eq.toFixed(2) + " мкФ");
+    }
+  </script>
+</head>
+<body onload="demo()">
+</body>
+</html>
